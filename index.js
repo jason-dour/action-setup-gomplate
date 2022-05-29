@@ -14,15 +14,15 @@ async function getDownloadObject(version) {
     const url = `https://github.com/hairyhenderson/gomplate/releases/download/latest/gomplate_linux-amd64`;
     const binPath = path.join("gomplate_linux-amd64", 'bin');
     return {
-        url,
-        binPath
-        };
+      url,
+      binPath
+    }
   } else {
     const url = `https://github.com/hairyhenderson/gomplate/releases/download/` + version + `/gomplate_linux-amd64`
     const binPath = path.join("gomplate_linux-amd64", 'bin');
     return {
-        url,
-        binPath
+      url,
+      binPath
     }
   }
 }
