@@ -1,0 +1,33 @@
+{
+  "name": "setup-gomplate",
+  "version": "1.0.0",
+  "description": "Install Gomplate for Github Actions",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "prepare": "ncc build index.js -o dist --source-map --license licenses.txt",
+    "all": "npm run lint && npm run prepare && npm run test",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jason-dour/action-setup-gomplate.git"
+  },
+  "author": "Jason A. Dour (https://github.com/jason-dour/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jason-dour/action-setup-gomplate/issues"
+  },
+  "homepage": "https://github.com/jason-dour/action-setup-gomplate#readme",
+  "keywords": [
+    "github",
+    "actions",
+    "setup",
+    "gomplate"
+  ],
+  "devDependencies": {
+    "@vercel/ncc": "^0.24.0",
+    "eslint": "^7.4.0",
+    "jest": "^26.1.0"
+  }
+}

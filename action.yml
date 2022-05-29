@@ -1,0 +1,14 @@
+name: setup-gomplate
+description: Setup Gomplate and add it to the PATH
+author: Jason A. Dour (https://github.com/jason-dour)
+inputs:
+  gomplate-version:
+    description: The Gomplate version to download (if necessary) and use.
+    required: false
+    default: latest
+outputs:
+  gomplate-version:
+    description: The installed Gomplate version. Useful when given a version range as input.
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
