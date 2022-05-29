@@ -20,6 +20,7 @@ async function getDownloadObject(version) {
   if (version === 'latest') {
     const url = `https://github.com/hairyhenderson/gomplate/releases/download/latest/gomplate_linux-amd64`;
     const binPath = path.join("gomplate_linux-amd64", 'bin');
+    console.log(`Downloading latest version of gomplate from ${url}`);
     return {
       url,
       binPath
@@ -27,6 +28,7 @@ async function getDownloadObject(version) {
   } else {
     const url = `https://github.com/hairyhenderson/gomplate/releases/download/` + version + `/gomplate_linux-amd64`
     const binPath = path.join("gomplate_linux-amd64", 'bin');
+    console.log(`Downloading version ${version} of gomplate from ${url}`);
     return {
       url,
       binPath
