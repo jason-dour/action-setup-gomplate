@@ -28,13 +28,6 @@ const tc = __webpack_require__(7784);
 const github = __webpack_require__(5438);
 
 const octokit = new github.GitHub(process.env.GITHUB_TOKEN);
-// const { getDownloadObject } = require('./utils');
-
-
-// import { join } from 'path';
-// import { getInput, addPath, setFailed } from '@actions/core';
-// import { downloadTool, extractZip, extractTar } from '@actions/tool-cache';
-// import { getDownloadObject } from './lib/utils';
 
 async function getRelease(version) {
     if (version === 'latest') {
@@ -55,9 +48,8 @@ async function getDownloadObject(version) {
   const release = await getRelease(version);
   const asset = release.data.assets.find(asset => asset.name.endsWith('_linux-amd64'));
   const url = asset.browser_download_url;
-  console.log("url=" + url);
+  console.log("download url: " + url);
   const binPath = path.join("gomplate_linux-amd64");
-  console.log("binPath=" + binPath);
   return { url, binPath };
 }
 
@@ -66,19 +58,14 @@ async function setup() {
     // Get version of tool to be installed
     const version = core.getInput('gomplate-version');
 
-    // Download the specific version of the tool, e.g. as a tarball/zipball
+    // Download the specific version of the tool.
     const download = await getDownloadObject(version);
     const pathToCLI = await tc.downloadTool(download.url,process.env.RUNNER_TEMP+"/gomplate");
     fs.chmodSync(pathToCLI, 0o755); // make the binary executable
     console.log("pathToCLI=" + pathToCLI);
 
-    // Extract the tarball/zipball onto host runner
-    // const extract = download.url.endsWith('.zip') ? tc.extractZip : tc.extractTar;
-    // const pathToCLI = await extract(pathToTarball);
-
     // Expose the tool by adding it to the PATH
     core.addPath(process.env.RUNNER_TEMP);
-    // core.addPath(path.join(pathToCLI, download.binPath));
   } catch (e) {
     core.setFailed(e);
   }
@@ -89,44 +76,6 @@ module.exports = setup
 if (require.main === require.cache[eval('__filename')]) {
   setup();
 }
-
-
-// const os = require('os');
-// const path = require('path');
-
-// // arch in [arm, x32, x64...] (https://nodejs.org/api/os.html#os_os_arch)
-// // return value in [amd64, 386, arm]
-// function mapArch(arch) {
-//   const mappings = {
-//     x32: '386',
-//     x64: 'amd64'
-//   };
-//   return mappings[arch] || arch;
-// }
-
-// // os in [darwin, linux, win32...] (https://nodejs.org/api/os.html#os_os_platform)
-// // return value in [darwin, linux, windows]
-// function mapOS(os) {
-//   const mappings = {
-//     darwin: 'macOS',
-//     win32: 'windows'
-//   };
-//   return mappings[os] || os;
-// }
-
-// function getDownloadObject(version) {
-//   const platform = os.platform();
-//   const filename = `gh_${ version }_${ mapOS(platform) }_${ mapArch(os.arch()) }`;
-//   const extension = platform === 'win32' ? 'zip' : 'tar.gz';
-//   const binPath = platform === 'win32' ? 'bin' : path.join(filename, 'bin');
-//   const url = `https://github.com/cli/cli/releases/download/v${ version }/${ filename }.${ extension }`;
-//   return {
-//     url,
-//     binPath
-//   };
-// }
-
-// module.exports = { getDownloadObject }
 
 
 /***/ }),
