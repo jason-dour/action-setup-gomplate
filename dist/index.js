@@ -21,6 +21,7 @@ module.exports = JSON.parse("{\"name\":\"@octokit/rest\",\"version\":\"16.43.2\"
 /***/ 2932:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
+const fs = __webpack_require__(5747);
 const path = __webpack_require__(5622);
 const core = __webpack_require__(2186);
 const tc = __webpack_require__(7784);
@@ -68,6 +69,7 @@ async function setup() {
     // Download the specific version of the tool, e.g. as a tarball/zipball
     const download = await getDownloadObject(version);
     const pathToCLI = await tc.downloadTool(download.url,process.env.RUNNER_TEMP+"/gomplate");
+    fs.chmodSync(pathToCLI, 0o755); // make the binary executable
     console.log("pathToCLI=" + pathToCLI);
 
     // Extract the tarball/zipball onto host runner
