@@ -28,6 +28,7 @@ jobs:
       uses: ./
       with:
         gomplate-version: ${{ matrix.gomplate-version }}
+      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Capture gomplate version installed
