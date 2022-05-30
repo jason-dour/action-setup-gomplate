@@ -24,9 +24,9 @@ module.exports = JSON.parse("{\"name\":\"@octokit/rest\",\"version\":\"16.43.2\"
 const path = __webpack_require__(5622);
 const core = __webpack_require__(2186);
 const tc = __webpack_require__(7784);
-const { Octokit } = __webpack_require__(5438);
+const github = __webpack_require__(5438);
 
-const octokit = new Octokit();
+const octokit = github.GetOctokit();
 // const { getDownloadObject } = require('./utils');
 
 
