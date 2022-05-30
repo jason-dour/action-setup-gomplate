@@ -52,7 +52,8 @@ async function setup() {
     // const pathToCLI = await extract(pathToTarball);
 
     // Expose the tool by adding it to the PATH
-    core.addPath(path.join(pathToCLI, download.binPath));
+    core.addPath(path.join(pathToCLI));
+    // core.addPath(path.join(pathToCLI, download.binPath));
   } catch (e) {
     core.setFailed(e);
   }
