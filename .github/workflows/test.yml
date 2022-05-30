@@ -17,8 +17,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        gomplate-version: [v3.10.0]
-        # gomplate-version: [latest, v3.9.0, v3.8.0]
+        # gomplate-version: [v3.10.0]
+        gomplate-version: [v3.10.0, v3.9.0, v3.8.0]
         # os: [macos-latest, windows-latest, ubuntu-latest]
         # version: [1.1.0, 1.0.0]
     steps:
