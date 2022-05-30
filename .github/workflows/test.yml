@@ -34,9 +34,9 @@ jobs:
 
     - name: Capture gomplate version installed
       run: |
-        export GOMPLATE_VERSION=$( gh --version )
+        export GOMPLATE_VERSION=$( gomplate_linux-amd64 --version )
         echo 'GOMPLATE_VERSION_INSTALLED<<EOF' >> $GITHUB_ENV
-        gomplate --version >> $GITHUB_ENV
+        gomplate_linux-amd64 --version >> $GITHUB_ENV
         echo 'EOF' >> $GITHUB_ENV
 
     - name: Verify
@@ -46,5 +46,5 @@ jobs:
       run: |
         import sys, os
         sys.exit(
-            int(not os.environ["GH_VERSION_EXPECTED"] in os.environ["GH_VERSION_INSTALLED"])
+            int(not os.environ["GOMPLATE_VERSION_EXPECTED"] in os.environ["GOMPLATE_VERSION_INSTALLED"])
         )
