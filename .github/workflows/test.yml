@@ -32,21 +32,9 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Capture gomplate version installed
+    - name: Verify gomplate version installed
       run: |
-        echo $PATH
-        ls -laR /home/runner/work/_temp/
         export GOMPLATE_VERSION=$( gomplate --version )
-        echo 'GOMPLATE_VERSION_INSTALLED<<EOF' >> $GITHUB_ENV
-        gomplate --version >> $GITHUB_ENV
-        echo 'EOF' >> $GITHUB_ENV
-
-    - name: Verify
-      shell: python
-      env:
-        GH_VERSION_EXPECTED: ${{ matrix.gomplate-version }}
-      run: |
-        import sys, os
-        sys.exit(
-            int(not os.environ["GOMPLATE_VERSION_EXPECTED"] in os.environ["GOMPLATE_VERSION_INSTALLED"])
-        )
+        if [ $GOMPLATE_VERSION -ne ${{ matrix.gomplate-version }}];
+          echo "error: gomplate version ${{ matrix.gomplate-version }} expected; got $GOMPLATE_VERSION"
+          exit 1
