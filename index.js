@@ -3,7 +3,7 @@ const core = require('@actions/core');
 const tc = require('@actions/tool-cache');
 const github = require('@actions/github');
 
-const octokit = new github.GitHub(process.env('GITHUB_TOKEN'));
+const octokit = new github.GitHub(process.env.GITHUB_TOKEN);
 // const { getDownloadObject } = require('./utils');
 
 
