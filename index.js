@@ -44,7 +44,7 @@ async function setup() {
 
     // Download the specific version of the tool, e.g. as a tarball/zipball
     const download = await getDownloadObject(version);
-    const pathToCLI = await tc.downloadTool(download.url,"gomplate");
+    const pathToCLI = await tc.downloadTool(download.url,process.env.RUNNER_TEMP+"/gomplate");
     console.log("pathToCLI=" + pathToCLI);
 
     // Extract the tarball/zipball onto host runner
