@@ -26,7 +26,7 @@ const core = __webpack_require__(2186);
 const tc = __webpack_require__(7784);
 const github = __webpack_require__(5438);
 
-const octokit = new github.GitHub();
+const octokit = new github.GitHub(process.env('GITHUB_TOKEN'));
 // const { getDownloadObject } = require('./utils');
 
 
