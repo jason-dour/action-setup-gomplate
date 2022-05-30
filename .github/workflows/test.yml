@@ -35,7 +35,7 @@ jobs:
     - name: Verify gomplate version installed
       run: |
         export GOMPLATE_VERSION=$( gomplate --version | awk '{print "v" $3}' )
-        if [ $GOMPLATE_VERSION -ne ${{ matrix.gomplate-version }} ]; then
+        if [ $GOMPLATE_VERSION != ${{ matrix.gomplate-version }} ]; then
           echo "error: gomplate version ${{ matrix.gomplate-version }} expected; got $GOMPLATE_VERSION"
           exit 1
         fi
