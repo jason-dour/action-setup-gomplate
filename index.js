@@ -3,7 +3,7 @@ const core = require('@actions/core');
 const tc = require('@actions/tool-cache');
 const github = require('@actions/github');
 
-const octokit = github.GetOctokit();
+const octokit = new github.GitHub();
 // const { getDownloadObject } = require('./utils');
 
 
