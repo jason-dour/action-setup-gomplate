@@ -30,10 +30,10 @@ async function getRelease(version) {
 async function getDownloadObject(version) {
   const release = await getRelease(version);
   const asset = release.data.assets.find(asset => asset.name.endsWith('_linux-amd64'));
-  console.log("asset=" + asset);
   const url = asset.browser_download_url;
   console.log("url=" + url);
-  const binPath = path.join(".");
+  const binPath = path.join("gomplate_linux-amd64");
+  console.log("binPath=" + binPath);
   return { url, binPath };
 }
 
@@ -45,6 +45,7 @@ async function setup() {
     // Download the specific version of the tool, e.g. as a tarball/zipball
     const download = await getDownloadObject(version);
     const pathToCLI = await tc.downloadTool(download.url);
+    console.log("pathToCLI=" + pathToCLI);
 
     // Extract the tarball/zipball onto host runner
     // const extract = download.url.endsWith('.zip') ? tc.extractZip : tc.extractTar;
