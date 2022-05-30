@@ -1,9 +1,9 @@
 const path = require('path');
 const core = require('@actions/core');
 const tc = require('@actions/tool-cache');
-const github = require('@actions/github');
+const { Octokit } = require('@actions/github');
 
-const octokit = new github();
+const octokit = new Octokit();
 // const { getDownloadObject } = require('./utils');
 
 
