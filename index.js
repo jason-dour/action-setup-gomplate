@@ -31,7 +31,7 @@ async function getDownloadObject(version) {
   const release = await getRelease(version);
   const asset = release.data.assets.find(asset => asset.name.endsWith('_linux-amd64'));
   console.log("asset=", asset);
-  const url = asset[0].url;
+  const url = asset.browser_download_url;
   console.log("url=", url);
   const binPath = path.join("gomplate", "bin");
   return { url, binPath };
