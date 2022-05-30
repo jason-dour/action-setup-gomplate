@@ -19,15 +19,31 @@ module.exports = JSON.parse("{\"name\":\"@octokit/rest\",\"version\":\"16.43.2\"
 /***/ }),
 
 /***/ 2932:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
 
-const fs = __webpack_require__(5747);
-const path = __webpack_require__(5622);
-const core = __webpack_require__(2186);
-const tc = __webpack_require__(7784);
-const github = __webpack_require__(5438);
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5747);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5622);
+/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2186);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _actions_tool_cache__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7784);
+/* harmony import */ var _actions_tool_cache__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_actions_tool_cache__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(5438);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_actions_github__WEBPACK_IMPORTED_MODULE_4__);
+/* module decorator */ module = __webpack_require__.hmd(module);
 
-const octokit = new github.GitHub(process.env.GITHUB_TOKEN);
+
+
+
+
+
+const octokit = new _actions_github__WEBPACK_IMPORTED_MODULE_4__.GitHub(process.env.GITHUB_TOKEN);
 
 async function getRelease(version) {
     if (version === 'latest') {
@@ -49,31 +65,31 @@ async function getDownloadObject(version) {
   const asset = release.data.assets.find(asset => asset.name.endsWith('_linux-amd64'));
   const url = asset.browser_download_url;
   console.log("download url: " + url);
-  const binPath = path.join("gomplate_linux-amd64");
+  const binPath = (0,path__WEBPACK_IMPORTED_MODULE_1__.join)("gomplate_linux-amd64");
   return { url, binPath };
 }
 
 async function setup() {
   try {
     // Get version of tool to be installed
-    const version = core.getInput('gomplate-version');
+    const version = (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput)('gomplate-version');
 
     // Download the specific version of the tool.
     const download = await getDownloadObject(version);
-    const pathToCLI = await tc.downloadTool(download.url,process.env.RUNNER_TEMP+"/gomplate");
-    fs.chmodSync(pathToCLI, 0o755); // make the binary executable
+    const pathToCLI = await (0,_actions_tool_cache__WEBPACK_IMPORTED_MODULE_3__.downloadTool)(download.url,process.env.RUNNER_TEMP+"/gomplate");
+    (0,fs__WEBPACK_IMPORTED_MODULE_0__.chmodSync)(pathToCLI, 0o755); // make the binary executable
     console.log("pathToCLI=" + pathToCLI);
 
     // Expose the tool by adding it to the PATH
-    core.addPath(process.env.RUNNER_TEMP);
+    (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.addPath)(process.env.RUNNER_TEMP);
   } catch (e) {
-    core.setFailed(e);
+    (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed)(e);
   }
 }
 
-module.exports = setup
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (setup);
 
-if (require.main === require.cache[eval('__filename')]) {
+if (__webpack_require__.c[__webpack_require__.s] === module) {
   setup();
 }
 
@@ -32978,8 +32994,8 @@ module.exports = require("zlib");
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
 /******/ 			exports: {}
 /******/ 		};
 /******/ 	
@@ -32992,18 +33008,79 @@ module.exports = require("zlib");
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 		}
 /******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = __webpack_module_cache__;
+/******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => module['default'] :
+/******/ 				() => module;
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/harmony module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.hmd = (module) => {
+/******/ 			module = Object.create(module);
+/******/ 			if (!module.children) module.children = [];
+/******/ 			Object.defineProperty(module, 'exports', {
+/******/ 				enumerable: true,
+/******/ 				set: () => {
+/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
+/******/ 				}
+/******/ 			});
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	__webpack_require__.ab = __dirname + "/";/************************************************************************/
-/******/ 	// module exports must be returned from runtime so entry inlining is disabled
+/******/ 	// module cache are used so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(2932);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2932);
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map
