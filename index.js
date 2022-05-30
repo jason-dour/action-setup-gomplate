@@ -1,6 +1,9 @@
 const path = require('path');
 const core = require('@actions/core');
 const tc = require('@actions/tool-cache');
+const github = require('@actions/github');
+
+const octokit = new github();
 // const { getDownloadObject } = require('./utils');
 
 
@@ -9,24 +12,27 @@ const tc = require('@actions/tool-cache');
 // import { downloadTool, extractZip, extractTar } from '@actions/tool-cache';
 // import { getDownloadObject } from './lib/utils';
 
+async function getRelease(version) {
+    if (version === 'latest') {
+        return octokit.repos.getLatestRelease({
+            owner: 'hairyhenderson',
+            repo: 'gomplate'
+        });
+    } else {
+        return octokit.repos.getReleaseByTag({
+            owner: 'hairyhenderson',
+            repo: 'gomplate',
+            tag: version
+        });
+    }
+}
+
 async function getDownloadObject(version) {
-  if (version === 'latest') {
-    const url = `https://github.com/hairyhenderson/gomplate/releases/download/latest/gomplate_linux-amd64`;
-    const binPath = path.join("gomplate_linux-amd64", 'bin');
-    console.log(`Downloading latest version of gomplate from ${url}`);
-    return {
-      url,
-      binPath
-    }
-  } else {
-    const url = `https://github.com/hairyhenderson/gomplate/releases/download/` + version + `/gomplate_linux-amd64`
-    const binPath = path.join("gomplate_linux-amd64", 'bin');
-    console.log(`Downloading version ${version} of gomplate from ${url}`);
-    return {
-      url,
-      binPath
-    }
-  }
+  const release = await getRelease(version);
+  const asset = release.data.assets.find(asset => asset.name.endsWith('_linux-add64'));
+  const url = asset.url;
+  const binPath = path.join("gomplate", "bin");
+  return { url, binPath };
 }
 
 async function setup() {

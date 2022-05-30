@@ -8,6 +8,9 @@ require('./sourcemap-register.js');module.exports =
 const path = __webpack_require__(622);
 const core = __webpack_require__(186);
 const tc = __webpack_require__(784);
+const github = __webpack_require__(716);
+
+const octokit = new github();
 // const { getDownloadObject } = require('./utils');
 
 
@@ -16,24 +19,27 @@ const tc = __webpack_require__(784);
 // import { downloadTool, extractZip, extractTar } from '@actions/tool-cache';
 // import { getDownloadObject } from './lib/utils';
 
+async function getRelease(version) {
+    if (version === 'latest') {
+        return octokit.repos.getLatestRelease({
+            owner: 'hairyhenderson',
+            repo: 'gomplate'
+        });
+    } else {
+        return octokit.repos.getReleaseByTag({
+            owner: 'hairyhenderson',
+            repo: 'gomplate',
+            tag: version
+        });
+    }
+}
+
 async function getDownloadObject(version) {
-  if (version === 'latest') {
-    const url = `https://github.com/hairyhenderson/gomplate/releases/download/latest/gomplate_linux-amd64`;
-    const binPath = path.join("gomplate_linux-amd64", 'bin');
-    console.log(`Downloading latest version of gomplate from ${url}`);
-    return {
-      url,
-      binPath
-    }
-  } else {
-    const url = `https://github.com/hairyhenderson/gomplate/releases/download/` + version + `/gomplate_linux-amd64`
-    const binPath = path.join("gomplate_linux-amd64", 'bin');
-    console.log(`Downloading version ${version} of gomplate from ${url}`);
-    return {
-      url,
-      binPath
-    }
-  }
+  const release = await getRelease(version);
+  const asset = release.data.assets.find(asset => asset.name.endsWith('_linux-add64'));
+  const url = asset.url;
+  const binPath = path.join("gomplate", "bin");
+  return { url, binPath };
 }
 
 async function setup() {
@@ -6506,6 +6512,14 @@ if (process.env.NODE_DEBUG && /\btunnel\b/.test(process.env.NODE_DEBUG)) {
   debug = function() {};
 }
 exports.debug = debug; // for test
+
+
+/***/ }),
+
+/***/ 716:
+/***/ ((module) => {
+
+module.exports = eval("require")("@actions/github");
 
 
 /***/ }),
