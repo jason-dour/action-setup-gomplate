@@ -34,7 +34,7 @@ jobs:
 
     - name: Capture gomplate version installed
       run: |
-        ls -laR
+        echo $PATH
         export GOMPLATE_VERSION=$( gomplate_linux-amd64 --version )
         echo 'GOMPLATE_VERSION_INSTALLED<<EOF' >> $GITHUB_ENV
         gomplate_linux-amd64 --version >> $GITHUB_ENV
