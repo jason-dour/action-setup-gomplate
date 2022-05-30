@@ -43,7 +43,7 @@ async function setup() {
     const version = core.getInput('gomplate-version');
 
     // Download the specific version of the tool, e.g. as a tarball/zipball
-    const download = getDownloadObject(version);
+    const download = await getDownloadObject(version);
     console.log("download=" + download);
     const pathToTarball = await tc.downloadTool(download.url);
 
