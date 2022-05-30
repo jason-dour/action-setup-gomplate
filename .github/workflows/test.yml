@@ -38,3 +38,5 @@ jobs:
         if [ $GOMPLATE_VERSION -ne ${{ matrix.gomplate-version }}];
           echo "error: gomplate version ${{ matrix.gomplate-version }} expected; got $GOMPLATE_VERSION"
           exit 1
+        fi
+        echo "Gomplate $GOMPLATE_VERSION installed successfully."
