@@ -33,7 +33,7 @@ async function getDownloadObject(version) {
   console.log("asset=" + asset);
   const url = asset.browser_download_url;
   console.log("url=" + url);
-  const binPath = path.join("gomplate_linux-amd64");
+  const binPath = path.join(".");
   return { url, binPath };
 }
 
