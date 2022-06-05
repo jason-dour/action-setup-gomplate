@@ -1,6 +1,9 @@
 name: setup-gomplate
 description: Setup Gomplate and add it to the PATH
 author: Jason A. Dour (https://github.com/jason-dour)
+branding:
+  icon: play
+  color: blue
 inputs:
   gomplate-version:
     description: The Gomplate version to download (if necessary) and use.
