@@ -29,7 +29,7 @@ __webpack_require__.r(__webpack_exports__);
 const os = __webpack_require__(2087);
 
 // Leverage the GitHub Action environment variables to authenticate with GitHub
-const octokit = new _actions_github__WEBPACK_IMPORTED_MODULE_4__.GitHub(process.env.GITHUB_TOKEN);
+const octokit = new _actions_github__WEBPACK_IMPORTED_MODULE_4__.getOctokit(process.env.GITHUB_TOKEN);
 
 // getRelease returns the octokit release object for the given version
 async function getRelease(version) {

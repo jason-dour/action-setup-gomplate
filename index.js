@@ -2,11 +2,11 @@ import { chmodSync } from 'fs';
 import { join } from 'path';
 import { getInput, addPath, setFailed } from '@actions/core';
 import { downloadTool } from '@actions/tool-cache';
-import { GitHub } from '@actions/github';
+import { getOctokit } from '@actions/github';
 const os = require('os');
 
 // Leverage the GitHub Action environment variables to authenticate with GitHub
-const octokit = new GitHub(process.env.GITHUB_TOKEN);
+const octokit = new getOctokit(process.env.GITHUB_TOKEN);
 
 // getRelease returns the octokit release object for the given version
 async function getRelease(version) {
