@@ -33,5 +33,5 @@ steps:
     gomplate-version: v3.10.0
   env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-- run: java -cp java HelloWorldApp
+- run: gomplate --version
 ```
