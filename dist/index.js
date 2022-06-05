@@ -42,9 +42,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const os = __webpack_require__(2087);
+const path = __webpack_require__(5622);
 
+// Leverage the GitHub Action environment variables to authenticate with GitHub
 const octokit = new _actions_github__WEBPACK_IMPORTED_MODULE_4__.GitHub(process.env.GITHUB_TOKEN);
 
+// getRelease returns the octokit release object for the given version
 async function getRelease(version) {
     if (version === 'latest') {
         return octokit.repos.getLatestRelease({
@@ -60,15 +64,39 @@ async function getRelease(version) {
     }
 }
 
+// arch in [arm, x32, x64...] (https://nodejs.org/api/os.html#os_os_arch)
+// return value in [amd64, 386, arm]
+function mapArch(arch) {
+  const mappings = {
+    x32: '386',
+    x64: 'amd64'
+  };
+  return mappings[arch] || arch;
+}
+
+// os in [darwin, linux, win32...] (https://nodejs.org/api/os.html#os_os_platform)
+// return value in [darwin, linux, windows]
+function mapOS(os) {
+  const mappings = {
+    darwin: 'macOS',
+    win32: 'windows'
+  };
+  return mappings[os] || os;
+}
+
+// getDownloadObject returns an object with the following properties:
+//   url: the url to download the tool from
+//   binPath: the local path to the downloaded tool
 async function getDownloadObject(version) {
   const release = await getRelease(version);
-  const asset = release.data.assets.find(asset => asset.name.endsWith('_linux-amd64'));
+  const asset = release.data.assets.find(asset => asset.name.endsWith(`gomplate_${ mapOS(platform) }-${ mapArch(os.arch()) }`));
   const url = asset.browser_download_url;
   console.log("download url: " + url);
   const binPath = (0,path__WEBPACK_IMPORTED_MODULE_1__.join)("gomplate_linux-amd64");
   return { url, binPath };
 }
 
+// setup downloads the tool and installs it to the given path
 async function setup() {
   try {
     // Get version of tool to be installed
