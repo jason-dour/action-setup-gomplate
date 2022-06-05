@@ -1,4 +1,4 @@
-# action-gomplate
+# action-setup-gomplate
 
 ![Action Tests](https://github.com/jason-dour/action-setup-gomplate/actions/workflows/test.yml/badge.svg)
 
