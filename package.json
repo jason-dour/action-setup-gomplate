@@ -27,12 +27,12 @@
   ],
   "dependencies": {
     "@actions/core": "^1.2.6",
-    "@actions/tool-cache": "^1.6.0",
-    "@actions/github": "^1.0.0"
+    "@actions/github": "^1.0.0",
+    "@actions/tool-cache": "^1.6.0"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.24.0",
     "eslint": "^7.4.0",
-    "jest": "^26.1.0"
+    "jest": "^26.6.3"
   }
 }
