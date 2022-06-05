@@ -1,5 +1,5 @@
 # action-gomplate
 
-<a href="https://github.com/jason-dour/action-setup-gomplate"><img alt="GitHub Actions status" src="https://github.com/jason-dour/action-setup-gomplate/workflows/test.yml/badge.svg"></a>
+![Actions Tests](https://github.com/jason-dour/action-setup-gomplate/actions/workflows/test.yml/badge.svg)
 
 Set up your GitHub Actions workflow with a specific version of Gomplate
