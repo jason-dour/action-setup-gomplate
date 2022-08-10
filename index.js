@@ -1,12 +1,12 @@
-import { chmodSync } from 'fs';
-import { join } from 'path';
+const fs = require("fs");
+const path = require("path");
 const core = require("@actions/core");
-import { downloadTool } from '@actions/tool-cache';
-import { getOctokit } from '@actions/github';
+const tc = require("@actions/tool-cache");
+const gh = require("@actions/github");
 const os = require('os');
 
 // Leverage the GitHub Action environment variables to authenticate with GitHub
-const octokit = new getOctokit(process.env.GITHUB_TOKEN);
+const octokit = new gh.getOctokit(process.env.GITHUB_TOKEN);
 
 // getRelease returns the octokit release object for the given version
 async function getRelease(version) {
@@ -51,7 +51,7 @@ async function getDownloadObject(version) {
   const release = await getRelease(version);
   const asset = release.data.assets.find(asset => asset.name.endsWith(`gomplate_${ mapOS(os.platform()) }-${ mapArch(os.arch()) }`));
   const url = asset.browser_download_url;
-  const binPath = join("gomplate_linux-amd64");
+  const binPath = path.join("gomplate_linux-amd64");
   core.info("url: " + url);
   core.info("binPath: " + binPath);
   return { url, binPath };
@@ -65,8 +65,8 @@ async function setup() {
 
     // Download the specific version of the tool.
     const download = await getDownloadObject(version);
-    const pathToCLI = await downloadTool(download.url,process.env.RUNNER_TEMP+"/gomplate");
-    chmodSync(pathToCLI, 0o755); // make the binary executable
+    const pathToCLI = await tc.downloadTool(download.url,process.env.RUNNER_TEMP+"/gomplate");
+    fs.chmodSync(pathToCLI, 0o755); // make the binary executable
     core.info("pathToCLI: " + pathToCLI);
 
     // Expose the tool by adding it to the PATH
