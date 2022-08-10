@@ -3,14 +3,13 @@ require('./sourcemap-register.js');module.exports =
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 2932:
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* module decorator */ module = __webpack_require__.hmd(module);
 const fs = __webpack_require__(5747);
 const path = __webpack_require__(5622);
 const core = __webpack_require__(2186);
@@ -23,31 +22,33 @@ const octokit = new gh.getOctokit(process.env.GITHUB_TOKEN);
 
 // getRelease returns the octokit release object for the given version
 async function getRelease(version) {
-    if (version === 'latest') {
-        return octokit.repos.getLatestRelease({
-            owner: 'hairyhenderson',
-            repo: 'gomplate'
-        });
-    } else {
-      try {
-        release = await octokit.repos.getReleaseByTag({
-          owner: 'hairyhenderson',
-          repo: 'gomplate',
-          tag: version
-        });
-      } catch(e) {
-        core.setFailed(e);
-      }
-      return release;
+  core.debug("getRelease(): version: " + version);
+  core.debug("getRelease(): octokot: " + octokit.version)
+  if (version === "latest") {
+    return octokit.repos.getLatestRelease({
+      owner: "hairyhenderson",
+      repo: "gomplate",
+    });
+  } else {
+    try {
+      release = await octokit.repos.getReleaseByTag({
+        owner: "hairyhenderson",
+        repo: "gomplate",
+        tag: version,
+      });
+    } catch (e) {
+      core.setFailed(e);
     }
+    return release;
+  }
 }
 
 // arch in [arm, x32, x64...] (https://nodejs.org/api/os.html#os_os_arch)
 // return value in [amd64, 386, arm]
 function mapArch(arch) {
   const mappings = {
-    x32: '386',
-    x64: 'amd64'
+    x32: "386",
+    x64: "amd64",
   };
   return mappings[arch] || arch;
 }
@@ -56,8 +57,8 @@ function mapArch(arch) {
 // return value in [darwin, linux, windows]
 function mapOS(os) {
   const mappings = {
-    darwin: 'macOS',
-    win32: 'windows'
+    darwin: "macOS",
+    win32: "windows",
   };
   return mappings[os] || os;
 }
@@ -69,7 +70,11 @@ async function getDownloadObject(version) {
   core.debug("getDownloadObject(): version: " + version);
   const release = await getRelease(version);
   core.debug("getDownloadObject(): release: " + release);
-  const asset = release.data.assets.find(asset => asset.name.endsWith(`gomplate_${ mapOS(os.platform()) }-${ mapArch(os.arch()) }`));
+  const asset = release.data.assets.find((asset) =>
+    asset.name.endsWith(
+      `gomplate_${mapOS(os.platform())}-${mapArch(os.arch())}`
+    )
+  );
   const url = asset.browser_download_url;
   const binPath = path.join("gomplate_linux-amd64");
   core.info("url: " + url);
@@ -81,12 +86,15 @@ async function getDownloadObject(version) {
 async function setup() {
   try {
     // Get version of tool to be installed
-    const version = core.getInput('gomplate-version');
+    const version = core.getInput("gomplate-version");
     core.debug("version: " + version);
- 
+
     // Download the specific version of the tool.
     const download = await getDownloadObject(version);
-    const pathToCLI = await tc.downloadTool(download.url,process.env.RUNNER_TEMP+"/gomplate");
+    const pathToCLI = await tc.downloadTool(
+      download.url,
+      process.env.RUNNER_TEMP + "/gomplate"
+    );
     fs.chmodSync(pathToCLI, 0o755); // make the binary executable
     console.log("pathToCLI: " + pathToCLI);
 
@@ -98,10 +106,6 @@ async function setup() {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (setup);
-
-if (__webpack_require__.c[__webpack_require__.s] === module) {
-  setup();
-}
 
 setup();
 
@@ -12868,8 +12872,8 @@ module.exports = require("zlib");
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			id: moduleId,
-/******/ 			loaded: false,
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
 /******/ 	
@@ -12882,15 +12886,9 @@ module.exports = require("zlib");
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 		}
 /******/ 	
-/******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
-/******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = __webpack_module_cache__;
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
@@ -12902,21 +12900,6 @@ module.exports = require("zlib");
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/harmony module decorator */
-/******/ 	(() => {
-/******/ 		__webpack_require__.hmd = (module) => {
-/******/ 			module = Object.create(module);
-/******/ 			if (!module.children) module.children = [];
-/******/ 			Object.defineProperty(module, 'exports', {
-/******/ 				enumerable: true,
-/******/ 				set: () => {
-/******/ 					throw new Error('ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: ' + module.id);
-/******/ 				}
-/******/ 			});
-/******/ 			return module;
 /******/ 		};
 /******/ 	})();
 /******/ 	
@@ -12939,10 +12922,10 @@ module.exports = require("zlib");
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	__webpack_require__.ab = __dirname + "/";/************************************************************************/
-/******/ 	// module cache are used so entry inlining is disabled
+/******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2932);
+/******/ 	return __webpack_require__(2932);
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map
