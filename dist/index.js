@@ -81,7 +81,8 @@ async function setup() {
   try {
     // Get version of tool to be installed
     const version = core.getInput('gomplate-version');
-
+    core.debug("version: " + version);
+ 
     // Download the specific version of the tool.
     const download = await getDownloadObject(version);
     const pathToCLI = await tc.downloadTool(download.url,process.env.RUNNER_TEMP+"/gomplate");
