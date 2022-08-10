@@ -14,22 +14,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5622);
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(2186);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _actions_tool_cache__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(7784);
-/* harmony import */ var _actions_tool_cache__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_actions_tool_cache__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(5438);
-/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_actions_github__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _actions_tool_cache__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7784);
+/* harmony import */ var _actions_tool_cache__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_actions_tool_cache__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5438);
+/* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_actions_github__WEBPACK_IMPORTED_MODULE_3__);
 /* module decorator */ module = __webpack_require__.hmd(module);
 
 
-
+const core = __webpack_require__(2186);
 
 
 const os = __webpack_require__(2087);
 
 // Leverage the GitHub Action environment variables to authenticate with GitHub
-const octokit = new _actions_github__WEBPACK_IMPORTED_MODULE_4__.getOctokit(process.env.GITHUB_TOKEN);
+const octokit = new _actions_github__WEBPACK_IMPORTED_MODULE_3__.getOctokit(process.env.GITHUB_TOKEN);
 
 // getRelease returns the octokit release object for the given version
 async function getRelease(version) {
@@ -75,8 +73,8 @@ async function getDownloadObject(version) {
   const asset = release.data.assets.find(asset => asset.name.endsWith(`gomplate_${ mapOS(os.platform()) }-${ mapArch(os.arch()) }`));
   const url = asset.browser_download_url;
   const binPath = (0,path__WEBPACK_IMPORTED_MODULE_1__.join)("gomplate_linux-amd64");
-  (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.info)("url: " + url);
-  (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.info)("binPath: " + binPath);
+  core.info("url: " + url);
+  core.info("binPath: " + binPath);
   return { url, binPath };
 }
 
@@ -84,18 +82,18 @@ async function getDownloadObject(version) {
 async function setup() {
   try {
     // Get version of tool to be installed
-    const version = (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput)('gomplate-version');
+    const version = core.getInput('gomplate-version');
 
     // Download the specific version of the tool.
     const download = await getDownloadObject(version);
-    const pathToCLI = await (0,_actions_tool_cache__WEBPACK_IMPORTED_MODULE_3__.downloadTool)(download.url,process.env.RUNNER_TEMP+"/gomplate");
+    const pathToCLI = await (0,_actions_tool_cache__WEBPACK_IMPORTED_MODULE_2__.downloadTool)(download.url,process.env.RUNNER_TEMP+"/gomplate");
     (0,fs__WEBPACK_IMPORTED_MODULE_0__.chmodSync)(pathToCLI, 0o755); // make the binary executable
-    (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.info)("pathToCLI: " + pathToCLI);
+    core.info("pathToCLI: " + pathToCLI);
 
     // Expose the tool by adding it to the PATH
-    (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.addPath)(process.env.RUNNER_TEMP);
+    core.addPath(process.env.RUNNER_TEMP);
   } catch (e) {
-    (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed)(e);
+    core.setFailed(e);
   }
 }
 
