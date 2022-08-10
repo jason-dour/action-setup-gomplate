@@ -16,11 +16,16 @@ async function getRelease(version) {
             repo: 'gomplate'
         });
     } else {
-        return octokit.repos.getReleaseByTag({
-            owner: 'hairyhenderson',
-            repo: 'gomplate',
-            tag: version
+      try {
+        release = await octokit.repos.getReleaseByTag({
+          owner: 'hairyhenderson',
+          repo: 'gomplate',
+          tag: version
         });
+      } catch(e) {
+        core.setFailed(e);
+      }
+      return release;
     }
 }
 
