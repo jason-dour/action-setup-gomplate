@@ -1,6 +1,6 @@
 import { chmodSync } from 'fs';
 import { join } from 'path';
-import { getInput, addPath, setFailed } from '@actions/core';
+import { getInput, addPath, setFailed, debug } from '@actions/core';
 import { downloadTool } from '@actions/tool-cache';
 import { getOctokit } from '@actions/github';
 const os = require('os');
@@ -51,8 +51,9 @@ async function getDownloadObject(version) {
   const release = await getRelease(version);
   const asset = release.data.assets.find(asset => asset.name.endsWith(`gomplate_${ mapOS(os.platform()) }-${ mapArch(os.arch()) }`));
   const url = asset.browser_download_url;
-  console.log("download url: " + url);
   const binPath = join("gomplate_linux-amd64");
+  debug("url: " + url);
+  debug("binPath: " + binPath);
   return { url, binPath };
 }
 
@@ -66,7 +67,7 @@ async function setup() {
     const download = await getDownloadObject(version);
     const pathToCLI = await downloadTool(download.url,process.env.RUNNER_TEMP+"/gomplate");
     chmodSync(pathToCLI, 0o755); // make the binary executable
-    console.log("pathToCLI=" + pathToCLI);
+    debug("pathToCLI=" + pathToCLI);
 
     // Expose the tool by adding it to the PATH
     addPath(process.env.RUNNER_TEMP);

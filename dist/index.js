@@ -74,8 +74,9 @@ async function getDownloadObject(version) {
   const release = await getRelease(version);
   const asset = release.data.assets.find(asset => asset.name.endsWith(`gomplate_${ mapOS(os.platform()) }-${ mapArch(os.arch()) }`));
   const url = asset.browser_download_url;
-  console.log("download url: " + url);
   const binPath = (0,path__WEBPACK_IMPORTED_MODULE_1__.join)("gomplate_linux-amd64");
+  (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.debug)("url: " + url);
+  (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.debug)("binPath: " + binPath);
   return { url, binPath };
 }
 
@@ -89,7 +90,7 @@ async function setup() {
     const download = await getDownloadObject(version);
     const pathToCLI = await (0,_actions_tool_cache__WEBPACK_IMPORTED_MODULE_3__.downloadTool)(download.url,process.env.RUNNER_TEMP+"/gomplate");
     (0,fs__WEBPACK_IMPORTED_MODULE_0__.chmodSync)(pathToCLI, 0o755); // make the binary executable
-    console.log("pathToCLI=" + pathToCLI);
+    (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.debug)("pathToCLI=" + pathToCLI);
 
     // Expose the tool by adding it to the PATH
     (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.addPath)(process.env.RUNNER_TEMP);
