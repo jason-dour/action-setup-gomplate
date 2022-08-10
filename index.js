@@ -67,7 +67,7 @@ async function setup() {
     const download = await getDownloadObject(version);
     const pathToCLI = await downloadTool(download.url,process.env.RUNNER_TEMP+"/gomplate");
     chmodSync(pathToCLI, 0o755); // make the binary executable
-    debug("pathToCLI=" + pathToCLI);
+    debug("pathToCLI: " + pathToCLI);
 
     // Expose the tool by adding it to the PATH
     addPath(process.env.RUNNER_TEMP);

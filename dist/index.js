@@ -90,7 +90,7 @@ async function setup() {
     const download = await getDownloadObject(version);
     const pathToCLI = await (0,_actions_tool_cache__WEBPACK_IMPORTED_MODULE_3__.downloadTool)(download.url,process.env.RUNNER_TEMP+"/gomplate");
     (0,fs__WEBPACK_IMPORTED_MODULE_0__.chmodSync)(pathToCLI, 0o755); // make the binary executable
-    (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.debug)("pathToCLI=" + pathToCLI);
+    (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.debug)("pathToCLI: " + pathToCLI);
 
     // Expose the tool by adding it to the PATH
     (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.addPath)(process.env.RUNNER_TEMP);
