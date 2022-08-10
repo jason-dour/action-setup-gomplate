@@ -96,6 +96,8 @@ if (__webpack_require__.c[__webpack_require__.s] === module) {
   setup();
 }
 
+setup();
+
 
 /***/ }),
 

@@ -82,3 +82,5 @@ export default setup
 if (require.main === module) {
   setup();
 }
+
+setup();
