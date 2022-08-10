@@ -62,6 +62,7 @@ function mapOS(os) {
 //   binPath: the local path to the downloaded tool
 async function getDownloadObject(version) {
   const release = await getRelease(version);
+  core.debug("release: " + release);
   const asset = release.data.assets.find(asset => asset.name.endsWith(`gomplate_${ mapOS(os.platform()) }-${ mapArch(os.arch()) }`));
   const url = asset.browser_download_url;
   const binPath = path.join("gomplate_linux-amd64");
