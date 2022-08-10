@@ -19,11 +19,12 @@ const os = __webpack_require__(2087);
 
 // Leverage the GitHub Action environment variables to authenticate with GitHub
 const octokit = new gh.getOctokit(process.env.GITHUB_TOKEN);
+core.debug("getRelease(): octokit: " + octokit.version);
 
 // getRelease returns the octokit release object for the given version
 async function getRelease(version) {
   core.debug("getRelease(): version: " + version);
-  core.debug("getRelease(): octokot: " + octokit.version)
+  core.debug("getRelease(): octokot: " + octokit.version);
   if (version === "latest") {
     return octokit.repos.getLatestRelease({
       owner: "hairyhenderson",
