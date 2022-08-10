@@ -81,7 +81,7 @@ async function setup() {
     const download = await getDownloadObject(version);
     const pathToCLI = await tc.downloadTool(download.url,process.env.RUNNER_TEMP+"/gomplate");
     fs.chmodSync(pathToCLI, 0o755); // make the binary executable
-    core.notice("pathToCLI: " + pathToCLI);
+    console.log("pathToCLI: " + pathToCLI);
 
     // Expose the tool by adding it to the PATH
     core.addPath(process.env.RUNNER_TEMP);
