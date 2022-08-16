@@ -12,25 +12,21 @@ const octokit = new gh.getOctokit(process.env.GITHUB_TOKEN);
 // getRelease returns the octokit release object for the given version
 async function getRelease(version) {
   var release;
-  if (version === "latest") {
-    try {
+  try {
+    if (version === "latest") {
       release = await octokit.rest.repos.getLatestRelease({
         owner: "hairyhenderson",
         repo: "gomplate",
       });
-    } catch (e) {
-      core.setFailed(e);
+    } else {
+        release = await octokit.rest.repos.getReleaseByTag({
+          owner: "hairyhenderson",
+          repo: "gomplate",
+          tag: version,
+        });
     }
-  } else {
-    try {
-      release = await octokit.rest.repos.getReleaseByTag({
-        owner: "hairyhenderson",
-        repo: "gomplate",
-        tag: version,
-      });
-    } catch (e) {
-      core.setFailed(e);
-    }
+  } catch (e) {
+    core.setFailed(e);
   }
   return release
 }
@@ -60,7 +56,6 @@ function mapOS(os) {
 async function getDownloadObject(version) {
   const release = await getRelease(version);
   core.debug("release: " + release.data.name);
-  core.debug("release data assets:");
   const asset = release.data.assets.find((asset) =>
     asset.name.endsWith(
       `gomplate_${mapOS(os.platform())}-${mapArch(os.arch())}`
@@ -78,8 +73,7 @@ async function getDownloadObject(version) {
 async function setup() {
   try {
     // Get version of tool to be installed
-    // const version = core.getInput("gomplate-version");
-    const version = "latest";
+    const version = core.getInput("gomplate-version");
     core.debug("version: " + version);
 
     // Download the specific version of the tool.
