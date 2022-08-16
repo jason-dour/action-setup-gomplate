@@ -24,21 +24,25 @@ const octokit = new gh.getOctokit(process.env.GITHUB_TOKEN);
 // getRelease returns the octokit release object for the given version
 async function getRelease(version) {
   var release;
-  try {
-    if (version === "latest") {
+  if (version === "latest") {
+    try {
       release = await octokit.rest.repos.getLatestRelease({
         owner: "hairyhenderson",
         repo: "gomplate",
       });
-    } else {
-        release = await octokit.rest.repos.getReleaseByTag({
-          owner: "hairyhenderson",
-          repo: "gomplate",
-          tag: version,
-        });
+    } catch (e) {
+      core.setFailed(e);
     }
-  } catch (e) {
-    core.setFailed(e);
+  } else {
+    try {
+      release = await octokit.rest.repos.getReleaseByTag({
+        owner: "hairyhenderson",
+        repo: "gomplate",
+        tag: version,
+      });
+    } catch (e) {
+      core.setFailed(e);
+    }
   }
   return release
 }
