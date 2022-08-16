@@ -11,37 +11,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 const fs = __webpack_require__(5747);
-const path = __webpack_require__(5622);
-const core = __webpack_require__(2186);
-const tc = __webpack_require__(7784);
-const gh = __webpack_require__(5438);
 const os = __webpack_require__(2087);
+const path = __webpack_require__(5622);
+
+const core = __webpack_require__(2186);
+const gh = __webpack_require__(5438);
+const tc = __webpack_require__(7784);
 
 // Leverage the GitHub Action environment variables to authenticate with GitHub
 const octokit = new gh.getOctokit(process.env.GITHUB_TOKEN);
-core.debug("octokit: version:" + octokit.version());
 
 // getRelease returns the octokit release object for the given version
 async function getRelease(version) {
-  core.debug("getRelease(): version: " + version);
-  core.debug("getRelease(): octokot: " + octokit.version);
-  if (version === "latest") {
-    return octokit.repos.getLatestRelease({
-      owner: "hairyhenderson",
-      repo: "gomplate",
-    });
-  } else {
-    try {
-      release = await octokit.repos.getReleaseByTag({
+  var release;
+  try {
+    if (version === "latest") {
+      release = await octokit.rest.repos.getLatestRelease({
         owner: "hairyhenderson",
         repo: "gomplate",
-        tag: version,
       });
-    } catch (e) {
-      core.setFailed(e);
+    } else {
+        release = await octokit.rest.repos.getReleaseByTag({
+          owner: "hairyhenderson",
+          repo: "gomplate",
+          tag: version,
+        });
     }
-    return release;
+  } catch (e) {
+    core.setFailed(e);
   }
+  return release
 }
 
 // arch in [arm, x32, x64...] (https://nodejs.org/api/os.html#os_os_arch)
@@ -58,7 +57,6 @@ function mapArch(arch) {
 // return value in [darwin, linux, windows]
 function mapOS(os) {
   const mappings = {
-    darwin: "macOS",
     win32: "windows",
   };
   return mappings[os] || os;
@@ -68,14 +66,15 @@ function mapOS(os) {
 //   url: the url to download the tool from
 //   binPath: the local path to the downloaded tool
 async function getDownloadObject(version) {
-  core.debug("getDownloadObject(): version: " + version);
   const release = await getRelease(version);
-  core.debug("getDownloadObject(): release: " + release);
+  core.debug("release: " + release.data.name);
+  core.debug("release data assets:");
   const asset = release.data.assets.find((asset) =>
     asset.name.endsWith(
       `gomplate_${mapOS(os.platform())}-${mapArch(os.arch())}`
     )
   );
+  core.debug("asset: " + asset)
   const url = asset.browser_download_url;
   const binPath = path.join("gomplate_linux-amd64");
   core.info("url: " + url);
@@ -87,7 +86,8 @@ async function getDownloadObject(version) {
 async function setup() {
   try {
     // Get version of tool to be installed
-    const version = core.getInput("gomplate-version");
+    // const version = core.getInput("gomplate-version");
+    const version = "latest";
     core.debug("version: " + version);
 
     // Download the specific version of the tool.
