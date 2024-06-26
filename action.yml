@@ -13,5 +13,5 @@ outputs:
   gomplate-version:
     description: The installed Gomplate version. Useful when given a version range as input.
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
