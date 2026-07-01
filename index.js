@@ -1,13 +1,13 @@
-const fs = require("fs");
-const os = require("os");
-const path = require("path");
+import fs from "fs";
+import os from "os";
+import path from "path";
 
-const core = require("@actions/core");
-const gh = require("@actions/github");
-const tc = require("@actions/tool-cache");
+import * as core from "@actions/core";
+import * as gh from "@actions/github";
+import * as tc from "@actions/tool-cache";
 
 // Leverage the GitHub Action environment variables to authenticate with GitHub
-const octokit = new gh.getOctokit(process.env.GITHUB_TOKEN);
+const octokit = gh.getOctokit(process.env.GITHUB_TOKEN);
 
 // getRelease returns the octokit release object for the given version
 async function getRelease(version) {
