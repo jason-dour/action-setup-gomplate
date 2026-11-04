@@ -31,7 +31,7 @@
     "@actions/tool-cache": "^4.0.0"
   },
   "devDependencies": {
-    "minimatch": "^10.2.6",
+    "minimatch": "^11.0.1",
     "@vercel/ncc": "^0.44.1",
     "eslint": "^10.14.0",
     "@eslint/js": "^10.0.1",
