@@ -37,6 +37,8 @@
     "@eslint/js": "^10.0.1",
     "globals": "^17.14.0",
     "jest": "^30.5.2"
+  },
+  "overrides": {
+    "minimatch": "^11.0.1"
   }
-
 }
